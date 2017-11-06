@@ -10,12 +10,12 @@
             <h4 class="card-title">Like posta</h4>
             <p class="card-text">Wpisz id posta</p>
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="idposta" aria-describedby="basic-addon1">
-              <button type="button" class="btn btn-primary">Wyświetl</button>
+              <input v-model='input' type="text" class="form-control" placeholder="idposta" aria-describedby="basic-addon1">
+
             </div>
             <p></p>
-            <button type="button" class="btn btn-primary" v-on:click="getpost">Pobierz o poscie</button>
-            <button type="button" class="btn btn-primary" v-on:click="getfeed">Pobierz o feedzie</button>
+            <button type="button" class="btn btn-primary" v-on:click="getPost">Pobierz o profilu</button>
+            <button type="button" class="btn btn-primary" v-on:click="getFeed">Pobierz o feedzie</button>
             <button type="button" class="btn btn-primary" v-on:click="resetuj">Resetuj</button>
           </div>
         </div>
@@ -38,7 +38,9 @@
       </div>
 
            <div class="card-block pt-0">
-             <div class="h4 mb-0">{{postlikes.summary.total_count}}</div>
+             {{postlikes.name}}
+             {{postlikes.id}}
+             <div class="h4 mb-0">{{postlikes.fan_count}}</div>
              <small class="text-muted text-uppercase font-weight-bold">Like</small>
              <div class="progress progress-xs mt-1 mb-0">
                <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -46,6 +48,7 @@
                             <br />
                             <p>
                               Osoby, które ostatnio polubiy
+                              {{id}}
                             </p>
                             <div class="card" style="width: 20rem;">
                     <ul class="list-group list-group-flush">
@@ -100,24 +103,38 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      postlikes: {data: [], paging: {}, summary: {}},
+      postlikes: {},
       feed: {},
-      urlgraph: 'https://graph.facebook.com/v2.10/529133257138951_1659781247407474/likes?summary=true&&access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME',
-      urlfeed: 'https://graph.facebook.com/v2.10/JulaPolska/posts?access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME'
-
+      urlgraph: 'https://graph.facebook.com/v2.10/529133257138951_1659781247407474/likes?summary=true&access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME',
+      urlfeed: 'https://graph.facebook.com/v2.10/JulaPolska/posts?access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME',
+      api: '?access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME',
+      graph: 'https://graph.facebook.com/v2.10/',
+      postinfo: '/posts',
+      fields: '&fields=name,fan_count,description',
+      input: 'makropolska',
+      profileid: ''
     }
   },
   methods: {
+    getFeed: function () {
+      this.urlgraph = this.graph + this.input + this.postinfo + this.api
+      axios.get(this.urlgraph)
+        .then(response => {
+        // JSON responses are automatically parsed.
+          this.feed = response.data
+        })
+    },
 
-    getpost: function () {
+    getPost: function () {
+      this.urlgraph = this.graph + this.input + this.api + this.fields
       axios.get(this.urlgraph)
         .then(response => {
         // JSON responses are automatically parsed.
           this.postlikes = response.data
         })
     },
-    getfeed: function () {
-      axios.get(this.urlfeed)
+    getApi: function () {
+      axios.get(this.urlgraph)
         .then(response => {
         // JSON responses are automatically parsed.
           this.feed = response.data
