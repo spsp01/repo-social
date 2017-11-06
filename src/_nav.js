@@ -8,7 +8,12 @@ export default {
     {
       name: 'Informacje o Url',
       url: '/page',
-      icon: 'icon-speedometer'
+      icon: 'icon-info '
+    },
+    {
+      name: 'Profie',
+      url: '/profile',
+      icon: 'icon-heart  '
     }
   ]
 }

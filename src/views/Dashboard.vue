@@ -110,22 +110,6 @@ export default {
   data () {
     return {
       posts: {name: '', fancount: '', about: '', category: '', picture: {data: {}}},
-      testowy: {
-        'name': 'MAKRO Polska',
-        'fan_count': 57991,
-        'about': 'MAKRO to sie\u0107 nowoczesnych, samoobs\u0142ugowych hurtowni dla przedsi\u0119biorc\u00f3w i ludzi biznesu.   W naszych halach  czeka na Pa\u0144stwa bogata oferta kilkudziesi\u0119ciu tysi\u0119cy produkt\u00f3w w hurtowych przyst\u0119pnych cenach.   Zapraszamy na www.makro.pl',
-        'category': 'Wholesale & Supply Store',
-        'picture': {
-          'data': {
-            'height': 100,
-            'is_silhouette': false,
-            'url': 'https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/1610866_10152593510116080_8325082621278154192_n.png?oh=4b69bd020bb7031ef7d69bf1754c79f3&oe=5A6A905C',
-            'width': 100
-          }
-        },
-        'id': '138561176079'
-      },
-
       errors: {},
       index: '0',
       url: 'rybyswiatapl',

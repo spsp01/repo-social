@@ -7,11 +7,12 @@ import Full from '@/containers/Full'
 // Views
 import Dashboard from '@/views/Dashboard'
 import Page from '@/views/Page'
+import Profile from '@/views/Profile'
 
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   linkActiveClass: 'open active',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
@@ -23,13 +24,18 @@ export default new Router({
       children: [
         {
           path: '',
-          name: 'Dashboard',
+          name: 'Profil',
           component: Dashboard
         },
         {
           path: '/page',
-          name: 'page',
+          name: 'InfoUrl',
           component: Page
+        },
+        {
+          path: '/profile',
+          name: 'ProfilStats',
+          component: Profile
         }
 
       ]
