@@ -48,7 +48,7 @@
                             <br />
                             <p>
                               Osoby, które ostatnio polubiy
-                              {{id}}
+                              {{likefeed.data}}
                             </p>
                             <div class="card" style="width: 20rem;">
                     <ul class="list-group list-group-flush">
@@ -90,8 +90,6 @@
       </div>
     </div>
 
-
-
 </div>
 
 
@@ -112,16 +110,19 @@ export default {
       postinfo: '/posts',
       fields: '&fields=name,fan_count,description',
       input: 'makropolska',
-      profileid: ''
+      profileid: '',
+      likefeed: [],
+      nestedresponse: []
     }
   },
   methods: {
     getFeed: function () {
-      this.urlgraph = this.graph + this.input + this.postinfo + this.api
+      this.urlgraph = this.graph + this.input + this.postinfo + '?access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME'
       axios.get(this.urlgraph)
         .then(response => {
         // JSON responses are automatically parsed.
           this.feed = response.data
+          this.idGet()
         })
     },
 
@@ -145,9 +146,31 @@ export default {
       this.postlikes.data = ''
       this.postlikes.paging = ''
       this.postlikes.summary = ''
+      this.postlikes = ''
       this.feed = ''
-    }
+    },
+    idGet: function () {
+      var ids = []
+      var i = 0
+      for (i in this.feed['data']) {
+        ids.push((this.feed['data'][i]['id']))
+      }
+      this.idSend(ids)
+    },
+    idSend (ids) {
+      var i = 0
+      for (i in ids) {
+        var urlsend = 'https://graph.facebook.com/v2.10/' + ids[i] + '/likes?access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME&summary=true'
+        axios.get(urlsend)
+          .then(response => {
+            this.nestedresponse.push(response.data)
+          })
+      }
+      this.nowa()
+    },
+    nowa: function () {
 
+    }
   }
   // Fetches posts when the component is created.
 
