@@ -87,14 +87,11 @@
   </div>
 </div>
 
-<p>https://graph.facebook.com/v2.10/111218528960520_1516454838436875/likes?summary=true&access_token=EAACEdEose0cBAND5A6DYNEnoI5MvFCVZC7LUcSoXoZCz4gtSgGImoohTjgs77cL3RTz6sTRhVSwZBPfTZClYtsclDWUgDF2RgzvBwlkuw4AKEWn4Gw4V8qHiTvKOENWzeQcQZCnvZCtZArYTXZB3WVJ63DAwxtMNYygiZAXWi0gMQOpp3bxrk7sGFaYfYyLDwuNYZD </p>
-<p>https://graph.facebook.com/v2.10/529133257138951_1659781247407474/likes?summary=true&access_token=EAACEdEose0cBAND5A6DYNEnoI5MvFCVZC7LUcSoXoZCz4gtSgGImoohTjgs77cL3RTz6sTRhVSwZBPfTZClYtsclDWUgDF2RgzvBwlkuw4AKEWn4Gw4V8qHiTvKOENWzeQcQZCnvZCtZArYTXZB3WVJ63DAwxtMNYygiZAXWi0gMQOpp3bxrk7sGFaYfYyLDwuNYZD</p>
-<button type="button" class="btn btn-primary" v-on:click="getpost">Pobierz o poscie</button>
+
 
 
 <ul>
-    <li v-if = "postlikes.data!=null" v-for= "{data, id} in postlikes.data" :key="id">
-      {{postlikes.data[0].name}}
+    <li v-if = "postlikes.data!=null" v-for= "data in postlikes.data">  {{data.name}}
     </li>
 </ul>
 
