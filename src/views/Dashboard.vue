@@ -83,7 +83,6 @@
 <div>
   <button type="button" class="btn btn-primary" v-on:click="addRow">Dodaj do tabeli</button>
 </div>
-
   </div>
 </div>
 
