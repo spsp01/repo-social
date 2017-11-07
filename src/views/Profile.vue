@@ -4,19 +4,20 @@
       <div class="col">
         <div class="card">
           <div class="card-header">
-            Informacje o poscie
+            Informacje o profilu
           </div>
           <div class="card-block">
-            <h4 class="card-title">Like posta</h4>
+            <h4 class="card-title">Profil</h4>
             <p class="card-text">Wpisz id posta</p>
             <div class="input-group">
               <input v-model='input' type="text" class="form-control" placeholder="idposta" aria-describedby="basic-addon1">
 
             </div>
             <p></p>
-            <button type="button" class="btn btn-primary" v-on:click="getPost">Pobierz o profilu</button>
+            <button type="button" class="btn btn-primary" v-on:click="oprofilu">Pobierz o profilu</button>
             <button type="button" class="btn btn-primary" v-on:click="getFeed">Pobierz o feedzie</button>
             <button type="button" class="btn btn-primary" v-on:click="resetuj">Resetuj</button>
+            
           </div>
         </div>
     </div>
@@ -41,14 +42,23 @@
              {{postlikes.name}}
              {{postlikes.id}}
              <div class="h4 mb-0">{{postlikes.fan_count}}</div>
-             <small class="text-muted text-uppercase font-weight-bold">Like</small>
+             <small class="text-muted text-uppercase font-weight-bold">Lubi ten profil</small>
              <div class="progress progress-xs mt-1 mb-0">
                <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
+                            <div class="h4 mb-0">{{avglikes10}}</div>
+                            <small class="text-muted text-uppercase font-weight-bold">Średnia like 10</small>
+                            <div class="progress progress-xs mt-1 mb-0">
+                              <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                           </div>
+                                           <div  class="h4 mb-0">{{avglikes100}}</div>
+                                           <small class="text-muted text-uppercase font-weight-bold">Średnia like 100</small>
+                                           <div class="progress progress-xs mt-1 mb-0">
+                                             <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                          </div>
                             <br />
                             <p>
                               Osoby, które ostatnio polubiy
-                              {{likefeed.data}}
                             </p>
                             <div class="card" style="width: 20rem;">
                     <ul class="list-group list-group-flush">
@@ -75,12 +85,14 @@
           <td><strong>Utworzony</strong></td>
           <td><strong>Post</strong></td>
           <td><strong>Akcja</strong></td>
+          <td><strong>Like</strong></td>
         </tr>
       </thead>
       <tbody>
         <tr v-for="data in feed.data">
           <td>{{data.id}}</td>
           <td>{{data.created_time}}</td>
+          <td>{{data.message}}</td>
           <td>{{data.message}}</td>
           <td><a v-on:click="removeRow(index)">Usun</a></td>
         </tr>
@@ -97,6 +109,7 @@
 
 <script>
 import axios from 'axios'
+import Vue from 'vue'
 
 export default {
   data () {
@@ -112,12 +125,20 @@ export default {
       input: 'makropolska',
       profileid: '',
       likefeed: [],
-      nestedresponse: []
+      ids: [],
+      nestedresponse: [],
+      avglikes10: [],
+      avglikes100: []
     }
   },
   methods: {
+    oprofilu: function () {
+      this.getPost()
+      this.suma()
+    },
+
     getFeed: function () {
-      this.urlgraph = this.graph + this.input + this.postinfo + '?access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME'
+      this.urlgraph = this.graph + this.input + this.postinfo + '?access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME' + '&limit=100'
       axios.get(this.urlgraph)
         .then(response => {
         // JSON responses are automatically parsed.
@@ -148,28 +169,38 @@ export default {
       this.postlikes.summary = ''
       this.postlikes = ''
       this.feed = ''
+      this.avglikes = ''
     },
     idGet: function () {
-      var ids = []
       var i = 0
       for (i in this.feed['data']) {
-        ids.push((this.feed['data'][i]['id']))
+        Vue.set(this.ids, i, this.feed['data'][i]['id'])
       }
-      this.idSend(ids)
+      this.idSend(this.ids)
     },
-    idSend (ids) {
+    idSend: function () {
+      this.nestedresponse = []
       var i = 0
-      for (i in ids) {
-        var urlsend = 'https://graph.facebook.com/v2.10/' + ids[i] + '/likes?access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME&summary=true'
+      for (i in this.ids) {
+        var urlsend = 'https://graph.facebook.com/v2.10/' + this.ids[i] + '/likes?access_token=1069468343070863|qYPMFJJzVFygBDNQygaMsMDo0ME&summary=true'
         axios.get(urlsend)
           .then(response => {
-            this.nestedresponse.push(response.data)
+            this.nestedresponse.push(response.data.summary.total_count)
           })
       }
-      this.nowa()
+      this.suma()
     },
-    nowa: function () {
+    suma: function () {
+      var sum10 = this.nestedresponse.slice(0, 10).reduce((pv, cv) => pv + cv, 0)
+      console.log(sum10)
+      var avg10 = sum10 / this.nestedresponse.slice(0, 10).length
 
+      var sum100 = this.nestedresponse.slice(0, 100).reduce((pv, cv) => pv + cv, 0)
+      console.log(sum100)
+      var avg100 = sum100 / this.nestedresponse.slice(0, 100).length
+
+      this.avglikes10 = avg10
+      this.avglikes100 = avg100
     }
   }
   // Fetches posts when the component is created.
