@@ -173,6 +173,5 @@ export default {
     }
   }
   // Fetches posts when the component is created.
-
 }
 </script>
