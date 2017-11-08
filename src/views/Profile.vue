@@ -83,7 +83,7 @@
       </thead>
       <tbody>
         <tr v-for="data in feed.data">
-          <td><a v-bind:href="'https://www.facebook.com/'+data.id">Idź do posta</a></td>
+          <td><a v-bind:href="'https://www.facebook.com/'+data.id" target="_blank">Idź do posta</a></td>
           <td>{{data.created_time}}</td>
           <td>{{data.message}}</td>
           <td><a v-on:click="removeRow(index)">Usun</a></td>
