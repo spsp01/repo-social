@@ -9,11 +9,6 @@ export default {
       name: 'Informacje o Url',
       url: '/page',
       icon: 'icon-info '
-    },
-    {
-      name: 'Profie',
-      url: '/profile',
-      icon: 'icon-heart  '
     }
   ]
 }
