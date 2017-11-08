@@ -76,7 +76,7 @@
       <td>{{row.title}}</td>
       <td>{{row.desc}}</td>
       <td>{{row.like}}</td>
-      <td><a v-on:click="removeRow(index)">Usun</a></td>
+      <td><a href='' v-on:click="removeRow(index)">Usuń</a></td>
     </tr>
   </tbody>
 </table>

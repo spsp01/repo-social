@@ -8,9 +8,9 @@
           </div>
           <div class="card-block">
             <h4 class="card-title">Profil</h4>
-            <p class="card-text">Wpisz nazwę profilu</p>
+            <p class="card-text">Wpisz nazwę profilu facebook</p>
             <div class="input-group">
-              <input v-model='input' type="text" class="form-control" placeholder="idposta" aria-describedby="basic-addon1">
+              <input v-model='input' type="text" class="form-control" placeholder="Nazwa profilu facebook" aria-describedby="basic-addon1">
 
             </div>
             <p></p>
@@ -44,7 +44,7 @@
              @{{input}}
              <p>{{shortdesc}}</p>
              <div class="h4 mb-0">{{postlikes.fan_count}}</div>
-             <small class="text-muted text-uppercase font-weight-bold">Lubi ten profil</small>
+             <small class="text-muted text-uppercase font-weight-bold">Osób lubi ten profil</small>
              <div class="progress progress-xs mt-1 mb-0">
                <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
@@ -86,7 +86,7 @@
           <td><a v-bind:href="'https://www.facebook.com/'+data.id" target="_blank">Idź do posta</a></td>
           <td>{{data.created_time}}</td>
           <td>{{data.message}}</td>
-          <td><a v-on:click="removeRow(index)">Usun</a></td>
+          <td><a href=''v-on:click="removeRow(index)">Usun</a></td>
         </tr>
       </tbody>
       </table>
